@@ -56,8 +56,8 @@ const Navbar = ({ pageTitle, isMenuOpen, setIsMenuOpen }: NavbarProps) => {
           />
         </div>
         <div className="p-2 bg-input-bg rounded-[8px]">
-          <h3 className="text-text-primary text-[14px] font-bold capitalize font-">
-            {pageTitle}
+          <h3 className="text-text-primary text-[14px] font-bold capitalize">
+            {pageTitle.split("/").pop()?.replace("-", " ")}
           </h3>
         </div>
       </div>

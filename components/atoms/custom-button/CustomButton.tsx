@@ -15,7 +15,7 @@ export const CustomButton = ({
       disabled={disabled || isSubmitting}
     >
       {label}
-      {icon && <span className="mr-2">{icon}</span>}
+      {icon && <span className="">{icon}</span>}
     </button>
   );
 };

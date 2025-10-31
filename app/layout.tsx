@@ -20,12 +20,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" className={`${manrope.variable} --font-manrope`}>
       <body>
-        <main className="">
+        <main>
           <ClientLayout>{children}</ClientLayout>
         </main>
-      </body>{" "}
+      </body>
     </html>
   );
 }

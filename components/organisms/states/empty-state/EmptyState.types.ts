@@ -5,4 +5,5 @@ export interface EmptyStateProps {
   onButtonClick?: () => void;
   height?: string;
   showButton?: boolean;
+  icon?: string;
 }
