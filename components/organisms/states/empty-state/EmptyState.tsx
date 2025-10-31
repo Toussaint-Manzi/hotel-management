@@ -17,7 +17,7 @@ const EmptyState: React.FC<EmptyStateProps> = ({
       className="w-full flex flex-col justify-center items-center gap-6"
       style={{ height }}
     >
-      <div className="text-center">
+      <div className="text-center md:w-2/3 lg:w-1/2">
         {icon && (
           <div className="mb-4 flex justify-center">
             <IconWrapper iconName={icon} size={100} className="text-border" />
