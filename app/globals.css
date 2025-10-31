@@ -13,6 +13,7 @@
   --color-background: #ffffff;
   --color-input-bg: #f8f8f8;
   --color-border: #e4e4e4;
+  --color-border-active: #2663eb;
 }
 
 @media (prefers-color-scheme: dark) {
