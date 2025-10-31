@@ -4,18 +4,20 @@ import React, { useState } from "react";
 import TextInput from "@/components/atoms/text-input/TextInput";
 import PasswordInput from "@/components/atoms/password-input/PasswordInput";
 import Button from "@/components/atoms/button/Button";
+import { login } from "@/redux/features/auth.slice";
+import { useAppDispatch, useAppSelector } from "@/redux/type";
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
+  const dispatch = useAppDispatch();
+  const { error, loading } = useAppSelector((state) => state.auth);
   const disabled = !email || !password;
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (disabled) return;
-    // TODO: wire authentication
-    console.log("submit", { email, password });
+    dispatch(login({ email, password }));
   };
 
   return (
@@ -54,13 +56,18 @@ export default function LoginPage() {
         <div className="text-center mt-6">
           <Button
             type="submit"
-            disabled={disabled}
+            disabled={disabled || loading}
             className="text-[14px] font-bold"
           >
-            Sign in
+            {loading ? "Signing in..." : "Sign in"}
           </Button>
         </div>
       </form>
+      {error && (
+        <p className="text-[#e90006] font-bold text-12px mt-4 text-center">
+          {error}
+        </p>
+      )}
     </div>
   );
 }
