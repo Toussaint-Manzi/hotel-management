@@ -29,18 +29,6 @@ const Sidebar = () => {
         ? "Localisations"
         : link.label;
 
-    // For links with children (submenus)
-    if (link.children) {
-      if (link.label === "Plaintes") {
-        return hasPermission("Plaintes", "LIST", groups);
-      }
-      // For Localisation submenu
-      if (link.label === "Localisation") {
-        return hasPermission("Localisations", "LIST", groups);
-      }
-      return false;
-    }
-
     // For direct links
     if (permissionKey in PERMISSIONS) {
       return hasPermission(
@@ -61,13 +49,13 @@ const Sidebar = () => {
   };
 
   return (
-    <div className="hidden lg:block w-[16%] h-screen bg-secondary fixed border-r border-[#E4E4E4]">
+    <div className="hidden lg:block w-[16%] h-screen bg-[#F8F8F8] fixed border-r border-[#E4E4E4]">
       <div className="border-b border-[#E4E4E4] p-6 flex items-center">
-        <h3 className="text-2xl text-[#4D45B4] font-bold">GovConnect</h3>
+        <h3 className="text-[20px] text-primary font-bold">Olympic</h3>
       </div>
       <div className="border-b border-[#E4E4E4] p-6 flex flex-col justify-center">
-        <h1 className="uppercase text-text-secondary text-[14px] font-medium tracking-widest mb-2">
-          general
+        <h1 className="uppercase text-text-secondary text-[10px] font-medium tracking-widest mb-2">
+          main
         </h1>{" "}
         {filteredLinks.map((link, index) => {
           const isOpen = openParent === link.label;
@@ -83,58 +71,11 @@ const Sidebar = () => {
                   label={link.label}
                   icon={link.icon}
                   active={isActive}
-                  rightIcon={
-                    link.children ? (
-                      isOpen ? (
-                        <IoIosArrowUp />
-                      ) : (
-                        <IoIosArrowDown />
-                      )
-                    ) : undefined
-                  }
                 />
               </div>
-
-              {link.children && isOpen && (
-                <div className="ml-4 mt-1 flex flex-col gap-1">
-                  {link.children.map((child, childIndex) => (
-                    <div
-                      key={childIndex}
-                      onClick={() => child.path && router.push(child.path)}
-                      className="cursor-pointer"
-                    >
-                      <SidebarItem
-                        label={child.label}
-                        icon={child.icon}
-                        active={window.location.pathname === child.path}
-                      />
-                    </div>
-                  ))}
-                </div>
-              )}
             </div>
           );
         })}
-      </div>
-      <div className="border-b border-[#E4E4E4] p-6 flex flex-col justify-center">
-        <h1 className="uppercase text-text-secondary text-[14px] font-medium tracking-widest mb-2">
-          support
-        </h1>
-        {links.support.map((link, index: number) => (
-          <div key={index} onClick={() => router.push(link.path)}>
-            <SidebarItem
-              label={link.label}
-              icon={link.icon}
-              active={
-                link.path.toLowerCase() ===
-                window.location.pathname.toLowerCase()
-              }
-            />
-          </div>
-        ))}
-      </div>
-      <div className="absolute bottom-4 w-full text-center text-text-secondary text-[16px]">
-        @{new Date().getFullYear()} GovConnect.ca, Inc.
       </div>
     </div>
   );

@@ -1,25 +1,39 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import TextInput from "@/components/atoms/text-input/TextInput";
 import PasswordInput from "@/components/atoms/password-input/PasswordInput";
 import Button from "@/components/atoms/button/Button";
+import { login } from "@/redux/features/auth.slice";
+import { useAppDispatch, useAppSelector } from "@/redux/type";
+import PopupMessage from "@/components/organisms/pop-up-message/PopupMessage";
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
+  const [showPopup, setShowPopup] = useState(false);
+  const dispatch = useAppDispatch();
+  const { error, loading } = useAppSelector((state) => state.auth);
   const disabled = !email || !password;
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (disabled) return;
-    // TODO: wire authentication
-    console.log("submit", { email, password });
+    dispatch(login({ email, password }));
   };
+
+  useEffect(() => {
+    error ? setShowPopup(true) : setShowPopup(false);
+  }, [error]);
 
   return (
     <div className="max-w-md mx-auto mt-20 px-4">
+      <PopupMessage
+        message={error || ""}
+        messageType="error"
+        showPopup={showPopup}
+        onClose={() => setShowPopup(false)}
+      />
       <div className="mb-6">
         <h1 className="text-text-primary font-extrabold text-[32px]">
           Good to see you again.
@@ -51,13 +65,16 @@ export default function LoginPage() {
           placeholder="Enter your password"
         />
 
+        {error && (
+          <p className="text-[#e90006] font-bold text-[12px]">{error}</p>
+        )}
         <div className="text-center mt-6">
           <Button
             type="submit"
-            disabled={disabled}
+            disabled={disabled || loading}
             className="text-[14px] font-bold"
           >
-            Sign in
+            {loading ? "Signing in..." : "Sign in"}
           </Button>
         </div>
       </form>

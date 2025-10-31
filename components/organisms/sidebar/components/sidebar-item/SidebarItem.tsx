@@ -12,8 +12,8 @@ const SidebarItem = ({
       className={`group flex justify-between items-center gap-2 p-3 rounded-[8px] cursor-pointer transition-all duration-200 ease-in-out
         ${
           active
-            ? "bg-nav-item-active text-primary"
-            : "bg-white text-main hover:bg-nav-item-active hover:text-primary"
+            ? "bg-white text-text-primary border-border border-px border"
+            : "text-text-secondary hover:bg-white hover:text-text-primary"
         } `}
     >
       <div className="flex gap-2">
@@ -22,11 +22,11 @@ const SidebarItem = ({
           className={` hover:text-[#4D45B4] transition-colors
             ${
               active
-                ? "text-primary"
-                : "text-[#1E1E1E] group-hover:text-primary"
+                ? "text-text-primary"
+                : "text-text-secondary group-hover:text-primary"
             }`}
         />
-        <span className="font-medium">{label}</span>
+        <span className="font-medium text-[14px]">{label}</span>
       </div>
       {rightIcon && (
         <span

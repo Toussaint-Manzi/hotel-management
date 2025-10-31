@@ -1,0 +1,1 @@
+export const ACCESS_TOKEN_KEY = "HOTEL_ACCESS_TOKEN";
