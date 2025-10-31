@@ -23,10 +23,12 @@ const EmptyState: React.FC<EmptyStateProps> = ({
             <IconWrapper iconName={icon} size={100} className="text-border" />
           </div>
         )}
-        <h2 className="text-[24px] font-medium text-text-primary mb-2">
+        <h2 className="text-[24px] font-bold text-text-primary mb-2">
           {title}
         </h2>
-        <p className="text-[16px] text-text-secondary mb-6">{subtitle}</p>
+        <p className="text-[16px] text-text-secondary mb-6 font-medium">
+          {subtitle}
+        </p>
         {showButton && onButtonClick && (
           <CustomButton
             label={buttonLabel}
