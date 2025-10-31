@@ -1,1 +1,1 @@
-This is dope initiative official website codebase
+This is hotel management official codebase
