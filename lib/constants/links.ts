@@ -1,83 +1,46 @@
+import path from "path";
+
 export const links = {
   general: [
     {
       label: "Dashboard",
-      icon: "home-1",
+      icon: "dashboard-layout",
       path: "/dashboard",
     },
     {
-      label: "Employés",
+      label: "Employees",
       icon: "users-group",
-      path: "/employes",
+      path: "/employees",
     },
     {
-      label: "Plaintes",
-      icon: "document-1",
-      children: [
-        {
-          label: "Types",
-          icon: "document-1",
-          path: "/types-plaintes",
-        },
-        {
-          label: "Plaintes créées",
-          icon: "document-1",
-          path: "/plaintes-créées",
-        },
-      ],
-    },
-    {
-      label: "Postes",
+      label: "Positions",
       icon: "case",
-      path: "/postes",
+      path: "/positions",
     },
     {
-      label: "Departments",
-      icon: "structure",
-      path: "/departments",
+      label: "Facilities",
+      icon: "facility",
+      path: "/facilities",
     },
     {
-      label: "Localisation",
-      icon: "location",
-      children: [
-        {
-          label: "Provinces",
-          icon: "location",
-          path: "/provinces",
-        },
-        {
-          label: "Communes",
-          icon: "location",
-          path: "/communes",
-        },
-        {
-          label: "Territoires",
-          icon: "location",
-          path: "/territoires",
-        },
-        {
-          label: "Quartiers",
-          icon: "location",
-          path: "/quartiers",
-        },
-      ],
+      label: "Packages",
+      icon: "package",
+      path: "/packages",
     },
     {
-      label: "Langues",
-      icon: "language",
-      path: "/langues",
-    },
-  ],
-  support: [
-    {
-      label: "Paramètres",
-      icon: "setting",
-      path: "/paramètres",
+      label: "Memberships",
+      icon: "user-check",
+      path: "/memberships",
     },
     {
-      label: "Aide",
-      icon: "question-circle",
-      path: "/aide",
+      label: "Attendance",
+      icon: "document-add",
+      path: "/attendance",
+    },
+    {
+      label: "Reports",
+      icon: "chart",
+      path: "/reports",
     },
   ],
 };
