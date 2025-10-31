@@ -19,6 +19,7 @@ export default function DashboardLayout({
   const [openParent, setOpenParent] = useState<string | null>(null);
 
   const router = useRouter();
+  const pathname = usePathname();
 
   const handleParentClick = (label: string, path?: string) => {
     if (path) {
@@ -38,7 +39,7 @@ export default function DashboardLayout({
       <div className="flex flex-col lg:ml-[16%] w-full lg:w-[84%] bg-white">
         <div className="sticky top-0 z-10 bg-white">
           <Navbar
-            pageTitle="Dashboard"
+            pageTitle={pathname}
             isMenuOpen={isMenuOpen}
             setIsMenuOpen={setIsMenuOpen}
           />

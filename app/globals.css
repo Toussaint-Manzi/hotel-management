@@ -26,6 +26,5 @@
 body {
   background: var(--background);
   color: var(--foreground);
-  /* Font is loaded via next/font in app/layout.tsx and applied using the --font-manrope variable */
-  font-family: var(--font-manrope);
+  font-family: var(--font-manrope), sans-serif;
 }

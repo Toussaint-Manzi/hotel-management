@@ -1,38 +1,27 @@
-import { useState } from "react";
 import SidebarItem from "./components/sidebar-item/SidebarItem";
 import { links } from "@/lib/constants/links";
 import { PERMISSIONS } from "@/lib/constants/permissions";
 import { hasPermission } from "@/lib/utils/permission";
-import { useRouter } from "next/navigation";
-import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
+import { usePathname, useRouter } from "next/navigation";
 
 const Sidebar = () => {
   const router = useRouter();
-  const [openParent, setOpenParent] = useState<string | null>(null);
+  const pathname = usePathname();
   const groups = [
     "SYSTEM_ADMIN_INITIATEUR",
     "SYSTEM_ADMIN_VALIDATEUR",
     "SYSTEM_ADMIN_VISITEUR",
   ]; // Example groups
-  //   const { user } = useAppSelector((state) => state.auth);
   const filteredLinks = links.general.filter((link) => {
     // Handle Dashboard which doesn't need permissions
     if (link.label === "Dashboard") {
       return true;
     }
 
-    // Map link labels to permissions keys
-    const permissionKey =
-      link.label === "Employés"
-        ? "Agents"
-        : link.label === "Localisation"
-        ? "Localisations"
-        : link.label;
-
     // For direct links
-    if (permissionKey in PERMISSIONS) {
+    if (link.label in PERMISSIONS) {
       return hasPermission(
-        permissionKey as keyof typeof PERMISSIONS,
+        link.label as keyof typeof PERMISSIONS,
         "LIST",
         groups
       );
@@ -40,13 +29,6 @@ const Sidebar = () => {
 
     return false;
   });
-  const handleParentClick = (label: string, path?: string) => {
-    if (path) {
-      router.push(path);
-    } else {
-      setOpenParent(openParent === label ? null : label);
-    }
-  };
 
   return (
     <div className="hidden lg:block w-[16%] h-screen bg-[#F8F8F8] fixed border-r border-[#E4E4E4]">
@@ -58,21 +40,17 @@ const Sidebar = () => {
           main
         </h1>{" "}
         {filteredLinks.map((link, index) => {
-          const isOpen = openParent === link.label;
-          const isActive = window.location.pathname === link.path;
+          const isActive =
+            pathname.split("/").pop()?.toLowerCase() ===
+            link.path?.split("/").pop()?.toLowerCase();
 
           return (
-            <div key={index}>
-              <div
-                onClick={() => handleParentClick(link.label, link.path)}
-                className="cursor-pointer"
-              >
-                <SidebarItem
-                  label={link.label}
-                  icon={link.icon}
-                  active={isActive}
-                />
-              </div>
+            <div key={index} onClick={() => router.push(link.path || "/")}>
+              <SidebarItem
+                label={link.label}
+                icon={link.icon}
+                active={isActive}
+              />
             </div>
           );
         })}
