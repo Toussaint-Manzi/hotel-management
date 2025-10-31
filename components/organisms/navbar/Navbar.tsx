@@ -2,12 +2,7 @@ import { IconWrapper } from "@/components/atoms/icon-wrapper/IconWrapper";
 import { logout } from "@/redux/features/auth.slice";
 import { useAppDispatch, useAppSelector } from "@/redux/type";
 import { useEffect, useRef, useState } from "react";
-
-type NavbarProps = {
-  pageTitle: string;
-  isMenuOpen: boolean;
-  setIsMenuOpen: (isOpen: boolean) => void;
-};
+import { NavbarProps } from "./Navbar.types";
 
 const Navbar = ({ pageTitle, isMenuOpen, setIsMenuOpen }: NavbarProps) => {
   const { user } = useAppSelector((state) => state.auth);
