@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { IconWrapper } from "../icon-wrapper/IconWrapper";
 import { PasswordInputProps } from "./PasswordInput.types";
+import Label from "../label/Label";
 
 export const PasswordInput = React.forwardRef<
   HTMLInputElement,
@@ -10,6 +11,7 @@ export const PasswordInput = React.forwardRef<
     {
       id,
       label,
+      labelClassName,
       wrapperClassName = "",
       inputClassName = "",
       className = "",
@@ -23,12 +25,14 @@ export const PasswordInput = React.forwardRef<
     return (
       <div className={wrapperClassName}>
         {label && (
-          <label
+          <Label
             htmlFor={id}
-            className="text-text-primary text-16px font-semibold"
+            className={
+              labelClassName || "text-text-primary text-16px font-semibold"
+            }
           >
             {label}
-          </label>
+          </Label>
         )}
 
         <div className="relative">

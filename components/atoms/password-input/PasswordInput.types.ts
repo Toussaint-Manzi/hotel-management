@@ -5,4 +5,5 @@ export interface PasswordInputProps
   wrapperClassName?: string;
   inputClassName?: string;
   error?: string | null;
+  labelClassName?: string;
 }
