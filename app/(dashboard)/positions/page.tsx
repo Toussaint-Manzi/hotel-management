@@ -1,16 +1,26 @@
 "use client";
 
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useAppSelector, useAppDispatch } from "@/redux/type";
 import { setLoading } from "@/redux/features/positions.slice";
 import EmptyState from "@/components/organisms/states/empty-state/EmptyState";
 import LoadingState from "@/components/organisms/states/loading-state/LoadingState";
+import EntityModal from "@/components/organisms/entity-modal/EntityModal";
+import PositionForm from "@/app/(dashboard)/positions/(components)/position-form/PositionForm";
+import type { PositionFormData } from "@/app/(dashboard)/positions/(components)/position-form/PositionForm.types";
 
 export default function PositionsPage() {
   const dispatch = useAppDispatch();
   const { positions, loading, error } = useAppSelector(
     (state) => state.positions
   );
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [formData, setFormData] = useState<PositionFormData>({
+    positionName: "",
+    groups: [],
+    description: "",
+  });
 
   useEffect(() => {
     // Simulate fetching data
@@ -22,8 +32,24 @@ export default function PositionsPage() {
   }, [dispatch]);
 
   const handleAddPosition = () => {
-    console.log("Add new position");
-    // TODO: Navigate to add position form or open modal
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+    // Reset form data
+    setFormData({
+      positionName: "",
+      groups: [],
+      description: "",
+    });
+  };
+
+  const handleSubmit = () => {
+    console.log("Submitting position data:", formData);
+    // TODO: Add API call to save position
+    // dispatch(addPosition(formData));
+    handleCloseModal();
   };
 
   if (loading) {
@@ -45,29 +71,65 @@ export default function PositionsPage() {
 
   if (positions.length === 0) {
     return (
-      <EmptyState
-        title="Nothing here… yet!"
-        subtitle="Positions help you assign roles and responsibilities to your team. Start by adding your first position."
-        buttonLabel="Add Position"
-        onButtonClick={handleAddPosition}
-        icon="case"
-        showButton={true}
-      />
+      <>
+        <EmptyState
+          title="Nothing here… yet!"
+          subtitle="Positions help you assign roles and responsibilities to your team. Start by adding your first position."
+          buttonLabel="Add Position"
+          onButtonClick={handleAddPosition}
+          icon="case"
+          showButton={true}
+        />
+
+        <EntityModal
+          isOpen={isModalOpen}
+          onClose={handleCloseModal}
+          title="Add New Position"
+          description="Create a new position in the system"
+          iconName="case"
+          entityName="Position"
+          isEditMode={false}
+          onSubmit={handleSubmit}
+        >
+          <PositionForm
+            formData={formData}
+            onFormDataChange={(data) => setFormData({ ...formData, ...data })}
+          />
+        </EntityModal>
+      </>
     );
   }
 
   return (
-    <div className="p-4">
-      <h1 className="text-2xl font-bold mb-4">Positions</h1>
-      {/* TODO: Add positions list/table here */}
-      <div className="grid gap-4">
-        {positions.map((position: any, index: number) => (
-          <div key={index} className="border p-4 rounded-lg">
-            {/* Position card content */}
-            <p>{JSON.stringify(position)}</p>
-          </div>
-        ))}
+    <>
+      <div className="p-4">
+        <h1 className="text-2xl font-bold mb-4">Positions</h1>
+        {/* TODO: Add positions list/table here */}
+        <div className="grid gap-4">
+          {positions.map((position: any, index: number) => (
+            <div key={index} className="border p-4 rounded-lg">
+              {/* Position card content */}
+              <p>{JSON.stringify(position)}</p>
+            </div>
+          ))}
+        </div>
       </div>
-    </div>
+
+      <EntityModal
+        isOpen={isModalOpen}
+        onClose={handleCloseModal}
+        title="Add New Position"
+        description="Create a new position in the system"
+        iconName="work"
+        entityName="Position"
+        isEditMode={false}
+        onSubmit={handleSubmit}
+      >
+        <PositionForm
+          formData={formData}
+          onFormDataChange={(data) => setFormData({ ...formData, ...data })}
+        />
+      </EntityModal>
+    </>
   );
 }
