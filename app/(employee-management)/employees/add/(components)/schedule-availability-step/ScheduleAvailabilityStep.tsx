@@ -1,10 +1,7 @@
 import React, { useState } from "react";
-import { IconWrapper } from "@/components/atoms/icon-wrapper/IconWrapper";
+import TimePickerButton from "@/components/atoms/time-picker-button/TimePickerButton";
 import StepHeader from "../step-header/StepHeader";
-import type {
-  ScheduleAvailabilityStepProps,
-  DaySchedule,
-} from "./ScheduleAvailabilityStep.types";
+import type { ScheduleAvailabilityStepProps } from "./ScheduleAvailabilityStep.types";
 
 export const ScheduleAvailabilityStep: React.FC<
   ScheduleAvailabilityStepProps
@@ -249,22 +246,13 @@ export const ScheduleAvailabilityStep: React.FC<
                   <div className="flex items-center gap-3">
                     {/* Start Time Buffer */}
                     <div className="relative">
-                      <button
-                        type="button"
+                      <TimePickerButton
+                        value={dayData.startTime}
                         onClick={() =>
                           setShowTimePicker({ day: day.key, type: "start" })
                         }
-                        className="px-4 py-[11px] border border-border bg-input-bg rounded-lg flex items-center justify-between gap-4 hover:border-border-active transition-colors"
-                      >
-                        <span className="text-[16px] text-text-secondary">
-                          {formatTime(dayData.startTime)}
-                        </span>
-                        <IconWrapper
-                          iconName="clock-circle"
-                          size={20}
-                          className="text-text-primary"
-                        />
-                      </button>
+                        formatTime={formatTime}
+                      />
                       {showTimePicker?.day === day.key &&
                         showTimePicker?.type === "start" && (
                           <TimePickerPopup
@@ -280,22 +268,13 @@ export const ScheduleAvailabilityStep: React.FC<
 
                     {/* End Time Buffer */}
                     <div className="relative">
-                      <button
-                        type="button"
+                      <TimePickerButton
+                        value={dayData.endTime}
                         onClick={() =>
                           setShowTimePicker({ day: day.key, type: "end" })
                         }
-                        className="px-4 py-[11px] border border-border bg-input-bg rounded-lg flex items-center justify-between gap-4 hover:border-border-active transition-colors"
-                      >
-                        <span className="text-[16px] text-text-secondary">
-                          {formatTime(dayData.endTime)}
-                        </span>
-                        <IconWrapper
-                          iconName="clock-circle"
-                          size={20}
-                          className="text-text-primary"
-                        />
-                      </button>
+                        formatTime={formatTime}
+                      />
                       {showTimePicker?.day === day.key &&
                         showTimePicker?.type === "end" && (
                           <TimePickerPopup
