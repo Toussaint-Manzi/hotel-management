@@ -5,9 +5,11 @@ import { useAppSelector, useAppDispatch } from "@/redux/type";
 import { setLoading } from "@/redux/features/employee.slice";
 import LoadingState from "@/components/organisms/states/loading-state/LoadingState";
 import EmptyState from "@/components/organisms/states/empty-state/EmptyState";
+import { useRouter } from "next/navigation";
 
 export default function EmployeesPage() {
   const dispatch = useAppDispatch();
+  const router = useRouter();
   const { employees, loading, error } = useAppSelector(
     (state) => state.employee
   );
@@ -44,8 +46,7 @@ export default function EmployeesPage() {
         subtitle="No employees registered yet. Start by adding your first team member."
         buttonLabel="Add Employee"
         onButtonClick={() => {
-          // TODO: Open add employee modal/form
-          console.log("Add employee clicked");
+          router.push("/employees/add");
         }}
         icon={"user-plus"}
       />

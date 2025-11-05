@@ -1,16 +1,29 @@
 "use client";
 
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useAppSelector, useAppDispatch } from "@/redux/type";
 import { setLoading } from "@/redux/features/memberships.slice";
 import EmptyState from "@/components/organisms/states/empty-state/EmptyState";
 import LoadingState from "@/components/organisms/states/loading-state/LoadingState";
+import EntityModal from "@/components/organisms/entity-modal/EntityModal";
+import MembershipForm from "@/app/(dashboard)/memberships/(components)/membership-form/MembershipForm";
+import type { MembershipFormData } from "@/app/(dashboard)/memberships/(components)/membership-form/MembershipForm.types";
 
 export default function MembershipsPage() {
   const dispatch = useAppDispatch();
   const { memberships, loading, error } = useAppSelector(
     (state) => state.memberships
   );
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [formData, setFormData] = useState<MembershipFormData>({
+    fullName: "",
+    phoneNumber: "",
+    emailAddress: "",
+    assignedPackage: "",
+    membershipStartDate: "",
+    uniqueId: "",
+  });
 
   useEffect(() => {
     // Simulate fetching data
@@ -22,8 +35,27 @@ export default function MembershipsPage() {
   }, [dispatch]);
 
   const handleAddMembership = () => {
-    console.log("Add new membership");
-    // TODO: Navigate to add membership form or open modal
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+    // Reset form data
+    setFormData({
+      fullName: "",
+      phoneNumber: "",
+      emailAddress: "",
+      assignedPackage: "",
+      membershipStartDate: "",
+      uniqueId: "",
+    });
+  };
+
+  const handleSubmit = () => {
+    console.log("Submitting membership data:", formData);
+    // TODO: Add API call to save membership
+    // dispatch(addMembership(formData));
+    handleCloseModal();
   };
 
   if (loading) {
@@ -45,29 +77,65 @@ export default function MembershipsPage() {
 
   if (memberships.length === 0) {
     return (
-      <EmptyState
-        title="No member available"
-        subtitle="No active members. Register a new member to begin tracking attendance."
-        buttonLabel="Add Membership"
-        onButtonClick={handleAddMembership}
-        icon="user-rounded"
-        showButton={true}
-      />
+      <>
+        <EmptyState
+          title="No member available"
+          subtitle="No active members. Register a new member to begin tracking attendance."
+          buttonLabel="Add Membership"
+          onButtonClick={handleAddMembership}
+          icon="user-rounded"
+          showButton={true}
+        />
+
+        <EntityModal
+          isOpen={isModalOpen}
+          onClose={handleCloseModal}
+          title="Add New Membership"
+          description="Register a new member in the system"
+          iconName="user-rounded"
+          entityName="Membership"
+          isEditMode={false}
+          onSubmit={handleSubmit}
+        >
+          <MembershipForm
+            formData={formData}
+            onFormDataChange={(data) => setFormData({ ...formData, ...data })}
+          />
+        </EntityModal>
+      </>
     );
   }
 
   return (
-    <div className="p-4">
-      <h1 className="text-2xl font-bold mb-4">Memberships</h1>
-      {/* TODO: Add memberships list/table here */}
-      <div className="grid gap-4">
-        {memberships.map((membership: any, index: number) => (
-          <div key={index} className="border p-4 rounded-lg">
-            {/* Membership card content */}
-            <p>{JSON.stringify(membership)}</p>
-          </div>
-        ))}
+    <>
+      <div className="p-4">
+        <h1 className="text-2xl font-bold mb-4">Memberships</h1>
+        {/* TODO: Add memberships list/table here */}
+        <div className="grid gap-4">
+          {memberships.map((membership: any, index: number) => (
+            <div key={index} className="border p-4 rounded-lg">
+              {/* Membership card content */}
+              <p>{JSON.stringify(membership)}</p>
+            </div>
+          ))}
+        </div>
       </div>
-    </div>
+
+      <EntityModal
+        isOpen={isModalOpen}
+        onClose={handleCloseModal}
+        title="Add New Membership"
+        description="Register a new member in the system"
+        iconName="user-rounded"
+        entityName="Membership"
+        isEditMode={false}
+        onSubmit={handleSubmit}
+      >
+        <MembershipForm
+          formData={formData}
+          onFormDataChange={(data) => setFormData({ ...formData, ...data })}
+        />
+      </EntityModal>
+    </>
   );
 }
